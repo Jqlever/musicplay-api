@@ -22,22 +22,7 @@ public class UserController {
     @GetMapping(value = "/login")
     public Result findByEmailAndPwd(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password) {
 
-        Result result = new Result();
-        try {
-            String encryptPwd = EncryptUtil.md5(password);
-            User user = userService.findByEmailAndPwd(email, encryptPwd);
-            if(user == null) {
-                result.setErrorCode("error");
-                result.setErrorMsg("用户名或密码不正确");
-            } else {
-                result.setErrorCode("");
-                result.setErrorMsg("");
-            }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return result;
+        return userService.findByEmailAndPwd(email, password);
     }
-
 
 }

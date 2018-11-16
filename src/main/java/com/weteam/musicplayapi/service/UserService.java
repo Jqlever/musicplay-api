@@ -1,8 +1,9 @@
 package com.weteam.musicplayapi.service;
 
+import com.weteam.musicplayapi.entity.Result;
 import com.weteam.musicplayapi.entity.User;
 
 public interface UserService {
 
-    User findByEmailAndPwd(String email, String password);
+    Result findByEmailAndPwd(String email, String password);
 }
