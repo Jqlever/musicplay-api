@@ -1,5 +1,6 @@
 package com.weteam.musicplayapi.service.impl;
 
+import com.weteam.musicplayapi.CommonException;
 import com.weteam.musicplayapi.constant.Constants;
 import com.weteam.musicplayapi.dao.UserDao;
 import com.weteam.musicplayapi.dao.UserSessionDao;
@@ -39,22 +40,18 @@ public class UserServiceImpl implements UserService {
         try {
             String encryptPwd = EncryptUtil.md5(password);
             User user = userDao.findByEmailAndPwd(email, encryptPwd);
-            Optional<User> optional = Optional.ofNullable(user);
-            if(optional.isPresent()) {
+            user = Optional.ofNullable(user).orElseThrow(() -> new CommonException("user_not_exists"));
+//            if(optional.isPresent()) {
                 //session存盘
-                UserSession session = new UserSession();
-                session.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-                session.setUserId(user.getId());
-                session.setExpireTime(24*60*60);
-                int num = sessionDao.saveUserSession(session);
-                System.out.println("id："+session.getId());
-                redisTemplate.opsForValue().set(session.getId()+"", session.getId(), TimeUnit.DAYS.toSeconds(1));
-                result.setErrorCode(Constants.SUCCESS);
-                result.setErrorMsg(Variables.SUCCESS_LOGIN);
-            } else {
-                result.setErrorCode(Constants.FAIL);
-                result.setErrorCode(Variables.USER_PWD_NOT_TRUE);
-            }
+            UserSession session = new UserSession();
+            session.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+            session.setUserId(user.getId());
+            session.setExpireTime(24*60*60);
+            int num = sessionDao.saveUserSession(session);
+            redisTemplate.opsForValue().set(session.getId()+"", session.getId(), TimeUnit.DAYS.toSeconds(1));
+            result.setErrorCode(Constants.SUCCESS);
+            result.setErrorMsg(Variables.SUCCESS_LOGIN);
+//            }
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
