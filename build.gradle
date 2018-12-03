@@ -34,5 +34,6 @@ dependencies {
     implementation('org.springframework.kafka:spring-kafka')
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
     implementation('mysql:mysql-connector-java')
+//    implementation('org.springframework.boot:spring-boot-starter-security')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }

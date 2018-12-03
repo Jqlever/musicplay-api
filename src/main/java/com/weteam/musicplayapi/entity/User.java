@@ -1,5 +1,7 @@
 package com.weteam.musicplayapi.entity;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Date;
 
 public class User {
@@ -7,7 +9,10 @@ public class User {
     private Integer id;
     private String userName;
     private Boolean sex;
+    @NotEmpty(message = "邮箱不能为空")
+    @Email
     private String email;
+    @NotEmpty(message = "密码不能为空")
     private String password;
     private Integer isRoot;
     private Date createTime;

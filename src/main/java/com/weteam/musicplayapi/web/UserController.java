@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 
 @RestController
@@ -20,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/login")
-    public Result findByEmailAndPwd(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password) {
+    public Result findByEmailAndPwd(@RequestParam(value = "email") @Valid String email, @RequestParam(value = "password") @Valid String password) {
 
         return userService.findByEmailAndPwd(email, password);
     }
